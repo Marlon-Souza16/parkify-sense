@@ -9,8 +9,8 @@ SoftwareSerial espSerial(RX_PIN, TX_PIN); // RX, TX
 const int car_distance = 40;  // Distância mínima
 
 // Entradas do Ultrassônico
-const int TRIG = 4;
-const int ECHO = 5;
+const int TRIG = 12;
+const int ECHO = 13;
 
 // Pinos dos LEDs
 const int ledGreen = 6;
@@ -56,7 +56,7 @@ void loop() {
     digitalWrite(ledRed, LOW);
   }
 
-  delay(500);
+  delay(2000);
 }
 
 int sensor(int pinotrig, int pinoecho) {
