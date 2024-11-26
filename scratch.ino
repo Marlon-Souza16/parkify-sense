@@ -3,6 +3,8 @@
 // Defina os pinos para o SoftwareSerial
 const int RX_PIN = 2; // Recebe dados do ESP32 (não usado neste caso)
 const int TX_PIN = 3; // Envia dados para o ESP32
+const int is_avaliable = 1;
+String Spot = "C15";
 
 SoftwareSerial espSerial(RX_PIN, TX_PIN); // RX, TX
 
@@ -39,7 +41,8 @@ void loop() {
   int ldrValue = analogRead(LDR_PIN);  // Lê o valor do fotoresistor
 
   // Verifica se a distância está abaixo do limite e se a luminosidade está acima do limiar
-  if (distance <= car_distance && ldrValue > 650 ) {
+  if (distance <= car_distance && ldrValue > 600 ) {
+    is_avaliable = 0;
     String mensagem = "Warning: Distancia: " + String(distance) + " cm | Luminosidade: " + String(ldrValue);
     Serial.println(mensagem);        // Imprime no Monitor Serial
     espSerial.println(mensagem);     // Envia para o ESP32
@@ -48,6 +51,7 @@ void loop() {
     digitalWrite(ledRed, HIGH);
   } 
   else {
+    is_avaliable = 1;
     String mensagem = "Ok: Distancia: " + String(distance) + " cm | Luminosidade: " + String(ldrValue);
     Serial.println(mensagem);        // Imprime no Monitor Serial
     espSerial.println(mensagem);     // Envia para o ESP32
