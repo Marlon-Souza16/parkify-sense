@@ -47,7 +47,6 @@ void loop() {
 
       http.begin(serverName);
 
-
       http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
       String httpRequestData = "dado=" + dado;
