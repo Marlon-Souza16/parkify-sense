@@ -49,7 +49,7 @@ void loop() {
 
       http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
-      String httpRequestData = "dado=" + dado;
+      String httpRequestData = dado;
 
       int httpResponseCode = http.POST(httpRequestData);
 
