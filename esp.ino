@@ -1,10 +1,10 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-const char* ssid = "Marlon";
-const char* password = "batata123";
+const char* ssid = "iPhone Raiz";
+const char* password = "Coxinha123";
 
-const char* serverName = "http://192.168.142.171:8000/dados";
+const char* serverName = "http://192.168.147.137:8001";
 
 void setup() {
   Serial.begin(9600);
