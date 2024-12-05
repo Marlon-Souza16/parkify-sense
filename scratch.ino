@@ -44,10 +44,10 @@ void loop() {
     digitalWrite(ledRed, LOW);
   }
 
-  String mensagem = "Luminosidade: " + String(ldrValue) + 
-                    " | Distancia: " + String(distance) + 
-                    " | Is_avaliable: " + String(is_avaliable) + 
-                    " | Vaga: " + Spot;
+  String mensagem = "light=" + String(ldrValue) + 
+                    "&distance="+ String(distance) + 
+                    "&is_available=" + String(is_avaliable) + 
+                    "&parking_slot=" + Spot;
 
   Serial.println(mensagem);
   espSerial.println(mensagem);
