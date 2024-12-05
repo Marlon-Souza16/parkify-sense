@@ -1,29 +1,25 @@
 #include <SoftwareSerial.h>
 
-// Defina os pinos para o SoftwareSerial
-const int RX_PIN = 2; // Recebe dados do ESP32 (não usado neste caso)
-const int TX_PIN = 3; // Envia dados para o ESP32
-const int is_avaliable = 1;
+const int RX_PIN = 2;
+const int TX_PIN = 3;
+int is_avaliable = 1;
 String Spot = "C15";
 
-SoftwareSerial espSerial(RX_PIN, TX_PIN); // RX, TX
+SoftwareSerial espSerial(RX_PIN, TX_PIN);
 
-const int car_distance = 40;  // Distância mínima
+const int car_distance = 40;
 
-// Entradas do Ultrassônico
 const int TRIG = 12;
 const int ECHO = 13;
 
-// Pinos dos LEDs
 const int ledGreen = 6;
 const int ledRed = 8;
 
-// Fotoresistor conectado ao pino A2
 const int LDR_PIN = A2;
 
 void setup() {
-  Serial.begin(9600);      // Inicializa a comunicação serial com o PC
-  espSerial.begin(9600);   // Inicializa a comunicação serial com o ESP32
+  Serial.begin(9600);
+  espSerial.begin(9600);
 
   pinMode(TRIG, OUTPUT);
   pinMode(ECHO, INPUT);
@@ -31,34 +27,30 @@ void setup() {
   pinMode(ledGreen, OUTPUT);
   pinMode(ledRed, OUTPUT);
 
-  pinMode(LDR_PIN, INPUT);  // Fotoresistor como entrada
-
-  Serial.println("Iniciando o sistema...");
+  pinMode(LDR_PIN, INPUT);
 }
 
 void loop() {
-  int distance = sensor(TRIG, ECHO);  // Lê a distância
-  int ldrValue = analogRead(LDR_PIN);  // Lê o valor do fotoresistor
+  int distance = sensor(TRIG, ECHO);
+  int ldrValue = analogRead(LDR_PIN);
 
-  // Verifica se a distância está abaixo do limite e se a luminosidade está acima do limiar
-  if (distance <= car_distance && ldrValue > 600 ) {
+  if (distance <= car_distance && ldrValue > 600) {
     is_avaliable = 0;
-    String mensagem = "Warning: Distancia: " + String(distance) + " cm | Luminosidade: " + String(ldrValue);
-    Serial.println(mensagem);        // Imprime no Monitor Serial
-    espSerial.println(mensagem);     // Envia para o ESP32
-
     digitalWrite(ledGreen, LOW);
     digitalWrite(ledRed, HIGH);
-  } 
-  else {
+  } else {
     is_avaliable = 1;
-    String mensagem = "Ok: Distancia: " + String(distance) + " cm | Luminosidade: " + String(ldrValue);
-    Serial.println(mensagem);        // Imprime no Monitor Serial
-    espSerial.println(mensagem);     // Envia para o ESP32
-
     digitalWrite(ledGreen, HIGH);
     digitalWrite(ledRed, LOW);
   }
+
+  String mensagem = "Luminosidade: " + String(ldrValue) + 
+                    " | Distancia: " + String(distance) + 
+                    " | Is_avaliable: " + String(is_avaliable) + 
+                    " | Vaga: " + Spot;
+
+  Serial.println(mensagem);
+  espSerial.println(mensagem);
 
   delay(2000);
 }
